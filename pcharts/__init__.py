@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect
 
 from .views.profits import profits
+from .views.helpers import helpers
 
 app = Flask(__name__)
 # app = Flask(__name__, static_folder="templates")
@@ -12,6 +13,7 @@ CSRFProtect(app)
 Bootstrap(app)
 
 app.register_blueprint(profits, url_prefix='/profits')
+app.register_blueprint(helpers, url_prefix='/helpers')
 
 
 # from . import views

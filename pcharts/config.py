@@ -6,5 +6,6 @@ sqlUser = 'root'
 sqlPassword = ''
 sqlIp = '127.0.0.1'
 
+datapath = './'
 if os.path.isfile('config_priv.py'):
-    from config_priv import *
+    from .config_priv import *

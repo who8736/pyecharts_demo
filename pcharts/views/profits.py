@@ -1,8 +1,6 @@
-from flask import Flask, render_template, Blueprint
-from jinja2 import Environment, FileSystemLoader
-from pyecharts.globals import CurrentConfig
+import logging
+from flask import Blueprint, render_template, request
 
-# 关于 CurrentConfig，可参考 [基本使用-全局变量]
 from pcharts.models.plot import bar_base
 
 # CurrentConfig.GLOBAL_ENV = Environment(loader=FileSystemLoader("./templates"))
@@ -19,6 +17,8 @@ def index():
 
 @profits.route("/barChart")
 def get_bar_chart():
+    ts_code = request.args.get('ts_code')
+    logging.debug(f'ts_code: {ts_code}')
     c = bar_base()
     return c.dump_options_with_quotes()
 
@@ -28,4 +28,3 @@ def profitsinc():
     # c = bar_base1()
     # return Markup(c.render_embed())
     return render_template("profits/inc.html")
-

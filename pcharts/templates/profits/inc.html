@@ -8,6 +8,11 @@
     <div class="container">
         <div class="text-center">
             <div><h1>利润组 增长页</h1></div>
+            <div><label>股票:</label>
+                <div style="width: 300px"><select id="selectcode"></select>
+                </div>
+            </div>
+            <div id="bar" style="width:900px; height:450px;"></div>
         </div>
     </div>
 {% endblock %}
@@ -15,4 +20,32 @@
 
 {% block scripts %}
     {{ super() }}
+    <script>
+        $(
+            function () {
+                let chart = echarts.init(document.getElementById('bar'),
+                    'white', {renderer: 'canvas'})
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://127.0.0.1:5000/profits/barChart',
+                    dataType: 'json',
+                    data: {'ts_code': '000002.SZ'},
+                    success: function (result) {
+                        chart.setOption(result)
+                    },
+                })
+            },
+        )
+
+        $(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'http://127.0.0.1:5000/helpers/stocks',
+                dataType: 'json',
+                success: function (data) {
+                    $('#selectcode').select2({data: data})
+                },
+            })
+        })
+    </script>
 {% endblock %}

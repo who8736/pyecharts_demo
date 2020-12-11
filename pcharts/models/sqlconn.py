@@ -12,7 +12,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 # from initlog import initlog
 
-from config import sqlUser, sqlPassword, sqlIp
+from ..config import sqlUser, sqlPassword, sqlIp
+from ..config_priv import sqlPassword
+from .. import config
 
 class SQLConn:
     """建立mysql连接"""
