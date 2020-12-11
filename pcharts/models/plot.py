@@ -1,15 +1,24 @@
 from pyecharts import options as opts
 from pyecharts.charts import Bar
-from .sqlhelper import readProfits
+from .sqlhelper import readProfits, readStockName
 
 
-def bar_base() -> Bar:
-    df = readProfits()
+def bar_base(ts_codes) -> Bar:
+    if ts_codes is None:
+        ts_codes = ['000001.SZ']
+    df = readProfits(ts_codes)
     print(df)
     c = Bar()
-    c.add_xaxis(["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"])
-    c.add_yaxis("商家A", [5, 20, 36, 10, 75, 90])
-    c.add_yaxis("商家B", [15, 25, 16, 55, 48, 8])
+    stocks = []
+    for key, data in df.iteritems():
+        if key == 'end_date':
+            c.add_xaxis(data.to_list())
+        else:
+            name = readStockName(key)
+            title = f'{key} {name}'
+            stocks.append(title)
+            c.add_yaxis(title, data.to_list())
     c.set_global_opts(
-        title_opts=opts.TitleOpts(title="Bar-基本示例", subtitle="我是副标题"))
+        title_opts=opts.TitleOpts(title="Bar-基本示例",
+                                  subtitle=', '.join(stocks)))
     return c

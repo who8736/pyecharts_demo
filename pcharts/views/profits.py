@@ -1,4 +1,5 @@
 import logging
+import json
 from flask import Blueprint, render_template, request
 
 from pcharts.models.plot import bar_base
@@ -17,9 +18,13 @@ def index():
 
 @profits.route("/barChart")
 def get_bar_chart():
-    ts_code = request.args.get('ts_code')
-    logging.debug(f'ts_code: {ts_code}')
-    c = bar_base()
+    ts_codes = None
+    args = request.args.get('ts_codes')
+    if args is not None:
+        ts_codes = json.loads(args)
+    # print(request.args)
+    logging.debug(f'ts_codes: {ts_codes}')
+    c = bar_base(ts_codes)
     return c.dump_options_with_quotes()
 
 
