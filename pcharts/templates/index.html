@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}pyechart demo 首页{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        {{ super() }}
+        <div class="text-center">
+            <div><h1>pyeCharts Demo 首页</h1></div>
+            <div><a href="profits/inc">利润增长比较</a></div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
