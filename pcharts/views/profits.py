@@ -20,6 +20,7 @@ def index():
 def get_bar_chart():
     ts_codes = None
     args = request.args.get('ts_codes')
+    logging.debug(args)
     if args is not None:
         ts_codes = json.loads(args)
     # print(request.args)

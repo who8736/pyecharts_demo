@@ -4,8 +4,9 @@ from .sqlhelper import readProfits, readStockName
 
 
 def bar_base(ts_codes) -> Bar:
-    if ts_codes is None:
-        ts_codes = ['000001.SZ']
+    assert ts_codes is not None, '股票代码为空'
+    # if ts_codes is None:
+    #     ts_codes = ['000001.SZ']
     df = readProfits(ts_codes)
     print(df)
     c = Bar()

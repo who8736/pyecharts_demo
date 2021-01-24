@@ -21,7 +21,7 @@
             <div>
                 <button class="btn btn-primary" id="loaddata">读取数据</button>
             </div>
-            <div id="bar" style="width:900px; height:450px;"></div>
+            <div id="bar" style="width:800px; height:450px;"></div>
         </div>
     </div>
 {% endblock %}
@@ -34,12 +34,14 @@
             function () {
                 let chart = echarts.init(document.getElementById('bar'),
                     'white', {renderer: 'canvas'})
+                let codes = ['000002.SZ']
                 $.ajax({
                     type: 'GET',
-                    url: 'http://127.0.0.1:5000/profits/barChart',
+                    url: '/profits/barChart',
                     dataType: 'json',
-                    data: {'ts_code': '000002.SZ'},
+                    data: {'ts_codes': JSON.stringify(codes)},
                     success: function (result) {
+                        console.log('ajax return success')
                         chart.setOption(result)
                     },
                 })
@@ -47,43 +49,26 @@
         )
 
 
-        {#$('#selectcode').select2({#}
-            {#data: data,#}
-            {#maximumSelectionLength: 2,#}
-            {#ajax: {#}
-            {#    type: 'GET',#}
-            {#    url: 'http://127.0.0.1:5000/helpers/stocks',#}
-            {#    dataType: 'json',#}
-            {#    processResults: function (data) {#}
-            {#        // Transforms the top-level key of the response object from 'items' to 'results'#}
-            {#        console.log(data)#}
-            {#        return {#}
-            {#            results: data,#}
-            {#        }#}
-            {#    },#}
-            {# },#}
-        {# })#}
-
         $.ajax({
             type: 'GET',
-            url: 'http://127.0.0.1:5000/helpers/stocks',
+            url: '/helpers/stocks',
             dataType: 'json',
-            success: function(data){
+            success: function (data) {
                 $('#selectcode').select2({
-                    data:data,
+                    data: data,
                     maximumSelectionLength: 2,
                 })
-            }
+            },
         })
 
-        $('#loaddata').click(function(){
+        $('#loaddata').click(function () {
             selected = $('#selectcode').val()
             console.log(selected)
             let chart = echarts.init(document.getElementById('bar'),
                 'white', {renderer: 'canvas'})
             $.ajax({
                 type: 'GET',
-                url: 'http://127.0.0.1:5000/profits/barChart',
+                url: '/profits/barChart',
                 dataType: 'json',
                 contentType: 'application/json; charset=UTF-8',
                 data: {ts_codes: JSON.stringify(selected)},
@@ -93,7 +78,6 @@
                 },
             })
         })
-
 
 
     </script>
